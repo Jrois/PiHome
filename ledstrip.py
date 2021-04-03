@@ -19,6 +19,8 @@ class LEDstrip:
         self.i = 5
         self.states = [0, 0, 0, 0, 0, 0]
         self.states[self.i] = 1
+        
+        self.on = False
 
         # pwm value
         self.val = 0.5
@@ -30,7 +32,7 @@ class LEDstrip:
             self.i = 0
         self.update_state()
         self.all_off()
-        self.set_strip()
+        self.set_strip(self.val)
 
     def state_down(self):
         if self.i > 0:
@@ -39,37 +41,37 @@ class LEDstrip:
             self.i = 5
         self.update_state()
         self.all_off()
-        self.set_strip()
+        self.set_strip(self.val)
 
     def update_state(self):
         self.states = [0, 0, 0, 0, 0, 0]
         self.states[self.i] = 1
 
-    def set_strip(self):
+    def set_strip(self, val):
         # [r, g, b, ww, cw, wwcww] = states
         if self.states[0] == 1:
-            self.red.value = self.val
+            self.red.value = val
         if self.states[1] == 1:
-            self.green.value = self.val
+            self.green.value = val
         if self.states[2] == 1:
-            self.blue.value = self.val
+            self.blue.value = val
         if self.states[3] == 1:
-            self.warm.value = self.val
+            self.warm.value = val
         if self.states[4] == 1:
-            self.cool.value = self.val
+            self.cool.value = val
         if self.states[5] == 1:
-            self.warm.value = self.val
-            self.cool.value = self.val
+            self.warm.value = val
+            self.cool.value = val
 
     def all_off(self):
-        self.set_strip([1, 1, 1, 1, 1, 0], 0)
+        self.set_strip(0)
 
     def increment(self):
         if self.val < 0.9:
             self.val += 0.05
-        self.set_strip()
+        self.set_strip(self.val)
 
     def decrement(self):
         if self.val > 0.1:
             self.val -= 0.05
-        self.set_strip()
+        self.set_strip(self.val)
