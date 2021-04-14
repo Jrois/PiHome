@@ -27,40 +27,23 @@ class LedStrip:
 
     def state(self):
         states = [0, 0, 0, 0, 0, 0]
-        states[self.i] = 1
+        states[self.i] = self.val
         return states
 
-    def set_strip(self, states, val):
+    def set_strip(self, states):
         # [r, g, b, ww, cw, wwcww] = states
-        if states[0] == 1:
-            self.red.value = val
+        if state[5] == 0:
+            self.red.value = self.state[0]
+            self.green.value = self.state[1]
+            self.blue.value = self.state[2]
+            self.warm.value = self.state[3]
+            self.cool.value = self.state[4]
         else:
-            self.red.value = 0
-        if states[1] == 1:
-            self.green.value = val
-        else:
-            self.green.value = 0
-        if states[2] == 1:
-            self.blue.value = val
-        else:
-            self.blue.value = 0
-        if states[3] == 1:
-            self.warm.value = val
-        else:
-            self.warm.value = 0
-        if states[4] == 1:
-            self.cool.value = val
-        else:
-            self.cool.value = 0
-        if states[5] == 1:
-            self.warm.value = val
-            self.cool.value = val
-        else:
-            self.warm.value = 0
-            self.cool.value = 0    
+            self.warm.value = self.state[5]
+            self.cool.value = self.state[5]
         
     def all_off(self):
-        self.set_strip([1, 1, 1, 1, 1, 0], 0)
+        self.set_strip([0, 0, 0, 0, 0, 0])
 
     def dim_up(self):
         if self.val < 0.95:

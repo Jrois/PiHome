@@ -27,7 +27,7 @@ def dimUp(ledstrip, event):
     while True:
         event.wait()
         ledstrip.dim_up()
-        ledstrip.set_strip(ledstrip.state(),ledstrip.val)
+        ledstrip.set_strip(ledstrip.state())
         print(ledstrip.val)
         time.sleep(0.25)
         event.clear()
@@ -37,7 +37,7 @@ def dimDown(ledstrip, event):
     while True:
         event.wait()
         ledstrip.dim_down()
-        ledstrip.set_strip(ledstrip.state(),ledstrip.val)
+        ledstrip.set_strip(ledstrip.state())
         print(ledstrip.val)
         time.sleep(0.25)
         event.clear()
@@ -53,7 +53,7 @@ dimDownThread.start()
 
 
 ledstrip.all_off()
-ledstrip.set_strip(ledstrip.state(), ledstrip.val)
+ledstrip.set_strip(ledstrip.state())
 print(ledstrip.state(), ledstrip.val)
 while True:
     if buttons == [1, 0, 0, 0]:
