@@ -48,6 +48,7 @@ def on_off(ledstrip, event):
         event.wait()
         if not ledstrip.on:
             ledstrip.set_strip(ledstrip.state())
+            ledstrip.on = True
         else:
             ledstrip.all_off()
         time.sleep(0.5)
@@ -91,8 +92,6 @@ stateDownThread.daemon = True
 stateDownThread.start()
 
 ledstrip.all_off()
-ledstrip.set_strip(ledstrip.state())
-print(ledstrip.state(), ledstrip.val)
 while True:
     if buttons == [1, 0, 0, 0]:
         dimUpEvent.set()
@@ -104,3 +103,4 @@ while True:
         stateUpEvent.set()
     if buttons == [0, 0, 0, 1]:
         stateUpEvent.set()
+
