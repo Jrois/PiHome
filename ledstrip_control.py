@@ -50,19 +50,45 @@ def on_off(ledstrip, event):
             ledstrip.set_strip(ledstrip.state())
         else:
             ledstrip.all_off()
+        time.sleep(0.5)
+        event.clear()
+
+def state_up(ledstrip, event):
+    while True:
+        event.wait()
+        ledstrip.state_up()
+        ledstrip.set_strip(ledstrip.state())
+        time.sleep(0.5)
+        event.clear()
+
+def state_up(ledstrip, event):
+    while True:
+        event.wait()
+        ledstrip.state_down()
+        ledstrip.set_strip(ledstrip.state())
+        time.sleep(0.5)
         event.clear()
 
 
 dimUpThread = threading.Thread(target=dim_up, args=(ledstrip, dimUpEvent))
 dimUpThread.daemon = True
+dimUpThread.start()
+
 dimDownThread = threading.Thread(target=dim_down, args=(ledstrip, dimDownEvent))
 dimDownThread.daemon = True
+dimDownThread.start()
+
 IOThread = threading.Thread(target=on_off, args=(ledstrip, IOEvent))
 IOThread.daemon = True
-
-dimUpThread.start()
-dimDownThread.start()
 IOThread.start()
+
+stateUpThread = threading.Thread(target=state_up, args=(ledstrip, stateUpEvent))
+stateUpThread.daemon = True
+stateUpThread.start()
+
+stateDownThread = threading.Thread(target=state_down, args=(ledstrip, stateDownEvent))
+stateDownThread.daemon = True
+stateDownThread.start()
 
 ledstrip.all_off()
 ledstrip.set_strip(ledstrip.state())
@@ -74,42 +100,7 @@ while True:
         dimDownEvent.set()
     if buttons == [1, 1, 0, 0]:
         IOEvent.set()
-
-# s = State()
-# val = 0.5
-# all_off()
-# wake_up_time = [7, 30]
-# while True:
-#     # switch between states
-#     if on and buttons_pressed()==[0,0,1,0]:
-#         s.up()
-#         all_off()
-#         set_strip(s.state(),val)
-#         sleep(0.5)
-#     if on and buttons_pressed()==[0,0,0,1]:
-#         s.down()
-#         all_off()
-#         set_strip(s.state(),val)
-#         sleep(0.5)
-#
-#     # turn on/off
-#     if not on and buttons_pressed()==[1,1,0,0]:
-#         on = True
-#         set_strip(s.state(),val)
-#         sleep(0.5)
-#     if on and buttons_pressed()==[1,1,0,0]:
-#         on = False
-#         set_strip(s.state(),0)
-#         sleep(0.5)
-#
-#     # dimming
-#     if on and buttons_pressed()==[1,0,0,0]:
-#         if val < 0.9:
-#             val += 0.05
-#         set_strip(s.state(),val)
-#         sleep(0.25)
-#     if on and buttons_pressed()==[0,1,0,0]:
-#         if val > 0.1:
-#             val -= 0.05
-#         set_strip(s.state(),val)
-#         sleep(0.25)
+    if buttons == [0, 0, 1, 0]:
+        stateUpEvent.set()
+    if buttons == [0, 0, 0, 1]:
+        stateUpEvent.set()
