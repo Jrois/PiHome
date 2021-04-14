@@ -12,7 +12,7 @@ def init_rf(A, B, C, D):
     GPIO.setup(D, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 
-def buttons_pressed(buttons, A, B, C, D):
+def get_buttons_pressed(buttons, A, B, C, D):
     next_call = time.time()
     while True:
         buttons[0] = 0

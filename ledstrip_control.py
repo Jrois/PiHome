@@ -3,25 +3,53 @@ from ledstrip_lib import *
 import time
 import threading
 
-# pin definitions (BCM)
-[A, B, C, D] = [26, 19, 13, 6]              # button input pins
-[r, g, b, ww, cw] = [2, 3, 4, 14, 15]       # pwm led output pins
-
+# rf receiver init
+[A, B, C, D] = [26, 19, 13, 6]  # button input pins (BCM)
 buttons = [0, 0, 0, 0]
-
 init_rf(A, B, C, D)
-button_listener = threading.Thread(target=buttons_pressed, args=(buttons, A, B, C, D))
+button_listener = threading.Thread(target=get_buttons_pressed, args=(buttons, A, B, C, D))
 button_listener.daemon = True
 button_listener.start()
 
+# ledstrip init
+[r, g, b, ww, cw] = [2, 3, 4, 14, 15]  # pwm led output pins (BCM)
 ledstrip = LedStrip(r, g, b, ww, cw)
+
+# event initialisations
+stateUpEvent = threading.Event()
+stateDownEvent = threading.Event()
+dimUpEvent = threading.Event()
+dimDownEvent = threading.Event()
+IOEvent = threading.Event()
+
+
+def dimUp(ledstrip, event):
+    while True:
+        event.wait()
+        ledstrip.dim_up()
+        ledstrip.all_off()
+        ledstrip.set_strip()
+        event.clear()
+
+
+def dimDown(ledstrip, event):
+    while True:
+        event.wait()
+        ledstrip.dim_down()
+        ledstrip.all_off()
+        ledstrip.set_strip()
+        event.clear()
+
+
+dimUpThread = threading.Thread(target=dimUp, args=(ledstrip, dimUpEvent))
+dimDownThread = threading.Thread(target=dimDown, args=(ledstrip, dimDownEvent))
+
 ledstrip.all_off()
 while True:
-    print(ledstrip.state())
-    ledstrip.all_off()
-    ledstrip.set_strip(ledstrip.state(), 1)
-    time.sleep(1)
-    ledstrip.state_up()
+    if buttons == [1, 0, 0, 0]:
+        dimUpEvent.set()
+    if buttons == [0, 1, 0, 0]:
+        dimDownEvent.set()
 
 # s = State()
 # val = 0.5

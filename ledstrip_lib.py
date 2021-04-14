@@ -11,6 +11,7 @@ class LedStrip:
         self.green = PWMLED(g, pin_factory=factory)
         self.warm = PWMLED(ww, pin_factory=factory)
         self.cool = PWMLED(cw, pin_factory=factory)
+        self.val = 0.7
 
     def state_up(self):
         if self.i < 5:
@@ -29,21 +30,30 @@ class LedStrip:
         states[self.i] = 1
         return states
 
-    def set_strip(self, states, val):
+    def set_strip(self, states):
         # [r, g, b, ww, cw, wwcww] = states
         if states[5] == 1:
-            self.warm.value = val
-            self.cool.value = val
+            self.warm.value = self.val
+            self.cool.value = self.val
         if states[0] == 1:
-            self.red.value = val
+            self.red.value = self.val
         if states[1] == 1:
-            self.green.value = val
+            self.green.value = self.val
         if states[2] == 1:
-            self.blue.value = val
+            self.blue.value = self.val
         if states[3] == 1:
-            self.warm.value = val
+            self.warm.value = self.val
         if states[4] == 1:
-            self.cool.value = val
+            self.cool.value = self.val
 
     def all_off(self):
         self.set_strip([1, 1, 1, 1, 1, 0], 0)
+
+    def dim_up(self):
+        if self.val < 1:
+            self.val += 0.1
+
+    def dim_down(self):
+        if self.val > 0.1:
+            self.val -= 0.1
+
