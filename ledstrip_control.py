@@ -10,13 +10,17 @@ import threading
 buttons = [0, 0, 0, 0]
 
 init_rf(A, B, C, D)
-button_listener = threading.Timer(0.1, buttons_pressed, args=(buttons, A, B, C, D))
+button_listener = threading.Thread(buttons_pressed, args=(buttons, A, B, C, D))
 button_listener.daemon = True
 button_listener.start()
 
+ledstrip = LedStrip(r, g, b, ww, cw)
+ledstrip.all_off()
 while True:
     print(buttons)
+    ledstrip.set_strip(ledstrip.state(), 1)
     time.sleep(1)
+    ledstrip.state_up()
 
 # s = State()
 # val = 0.5
