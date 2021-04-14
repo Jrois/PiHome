@@ -15,7 +15,10 @@ def init_rf(A, B, C, D):
 def buttons_pressed(buttons, A, B, C, D):
     next_call = time.time()
     while True:
-        buttons = [0, 0, 0, 0]
+        buttons[0] = 0
+        buttons[1] = 0
+        buttons[2] = 0
+        buttons[3] = 0
         if GPIO.input(A):
             buttons[0] = 1
         if GPIO.input(B):
@@ -24,6 +27,5 @@ def buttons_pressed(buttons, A, B, C, D):
             buttons[2] = 1
         if GPIO.input(D):
             buttons[3] = 1
-        print(buttons)
         next_call = next_call + 0.1
         time.sleep(next_call - time.time())

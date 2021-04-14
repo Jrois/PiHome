@@ -1,17 +1,22 @@
 from rf_lib import *
 from ledstrip_lib import *
-from time import sleep
+import time
 import threading
 
 # pin definitions (BCM)
 [A, B, C, D] = [26, 19, 13, 6]              # button input pins
 [r, g, b, ww, cw] = [2, 3, 4, 14, 15]       # pwm led output pins
+
 buttons = [0, 0, 0, 0]
 
 init_rf(A, B, C, D)
 button_listener = threading.Timer(0.1, buttons_pressed, args=(buttons, A, B, C, D))
+button_listener.daemon = True
 button_listener.start()
 
+while True:
+    print(buttons)
+    time.sleep(1)
 
 # s = State()
 # val = 0.5
