@@ -62,7 +62,7 @@ def state_up(ledstrip, event):
         time.sleep(0.5)
         event.clear()
 
-def state_up(ledstrip, event):
+def state_down(ledstrip, event):
     while True:
         event.wait()
         ledstrip.state_down()
@@ -102,5 +102,5 @@ while True:
     if buttons == [0, 0, 1, 0]:
         stateUpEvent.set()
     if buttons == [0, 0, 0, 1]:
-        stateUpEvent.set()
+        stateDownEvent.set()
 
