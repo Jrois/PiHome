@@ -32,15 +32,15 @@ class LedStrip:
 
     def set_strip(self, states):
         # [r, g, b, ww, cw, wwcww] = states
-        if state[5] == 0:
-            self.red.value = self.state[0]
-            self.green.value = self.state[1]
-            self.blue.value = self.state[2]
-            self.warm.value = self.state[3]
-            self.cool.value = self.state[4]
+        if states[5] == 0:
+            self.red.value = states[0]
+            self.green.value = states[1]
+            self.blue.value = states[2]
+            self.warm.value = states[3]
+            self.cool.value = states[4]
         else:
-            self.warm.value = self.state[5]
-            self.cool.value = self.state[5]
+            self.warm.value = states[5]
+            self.cool.value = states[5]
         
     def all_off(self):
         self.set_strip([0, 0, 0, 0, 0, 0])
