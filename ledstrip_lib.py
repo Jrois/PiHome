@@ -12,6 +12,7 @@ class LedStrip:
         self.warm = PWMLED(ww, pin_factory=factory)
         self.cool = PWMLED(cw, pin_factory=factory)
         self.val = 0.7
+        self.on = False
 
     def state_up(self):
         if self.i < 5:

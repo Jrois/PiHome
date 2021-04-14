@@ -23,7 +23,7 @@ dimDownEvent = threading.Event()
 IOEvent = threading.Event()
 
 
-def dimUp(ledstrip, event):
+def dim_up(ledstrip, event):
     while True:
         event.wait()
         ledstrip.dim_up()
@@ -33,7 +33,7 @@ def dimUp(ledstrip, event):
         event.clear()
 
 
-def dimDown(ledstrip, event):
+def dim_down(ledstrip, event):
     while True:
         event.wait()
         ledstrip.dim_down()
@@ -43,14 +43,26 @@ def dimDown(ledstrip, event):
         event.clear()
 
 
-dimUpThread = threading.Thread(target=dimUp, args=(ledstrip, dimUpEvent))
+def on_off(ledstrip, event):
+    while True:
+        event.wait()
+        if not ledstrip.on:
+            ledstrip.set_strip(ledstrip.state())
+        else:
+            ledstrip.all_off()
+        event.clear()
+
+
+dimUpThread = threading.Thread(target=dim_up, args=(ledstrip, dimUpEvent))
 dimUpThread.daemon = True
-dimDownThread = threading.Thread(target=dimDown, args=(ledstrip, dimDownEvent))
+dimDownThread = threading.Thread(target=dim_down, args=(ledstrip, dimDownEvent))
 dimDownThread.daemon = True
+IOThread = threading.Thread(target=on_off, args=(ledstrip, IOEvent))
+IOThread.daemon = True
 
 dimUpThread.start()
 dimDownThread.start()
-
+IOThread.start()
 
 ledstrip.all_off()
 ledstrip.set_strip(ledstrip.state())
@@ -60,6 +72,8 @@ while True:
         dimUpEvent.set()
     if buttons == [0, 1, 0, 0]:
         dimDownEvent.set()
+    if buttons == [1, 1, 0, 0]:
+        IOEvent.set()
 
 # s = State()
 # val = 0.5
