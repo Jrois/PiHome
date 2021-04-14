@@ -13,9 +13,13 @@ class RF_receiver:
         self.C = C
         self.D = D
 
+        self.pressed = False
+
     def buttons_pressed(self):
         buttons = 0
-        if any([GPIO.input(self.A), GPIO.input(self.B), GPIO.input(self.C), GPIO.input(self.D)]):
+
+        if self.pressed is False and any([GPIO.input(self.A), GPIO.input(self.B), GPIO.input(self.C), GPIO.input(self.D)]):
+            self.pressed = True
             buttons = [0, 0, 0, 0]
             if GPIO.input(self.A):
                 buttons[0] = 1
