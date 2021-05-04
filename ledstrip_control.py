@@ -54,6 +54,7 @@ def on_off(ledstrip, event):
         time.sleep(0.5)
         event.clear()
 
+
 def state_up(ledstrip, event):
     while True:
         event.wait()
@@ -62,6 +63,7 @@ def state_up(ledstrip, event):
         time.sleep(0.5)
         event.clear()
 
+
 def state_down(ledstrip, event):
     while True:
         event.wait()
@@ -69,6 +71,12 @@ def state_down(ledstrip, event):
         ledstrip.set_strip(ledstrip.state())
         time.sleep(0.5)
         event.clear()
+
+
+def logger(buttons, ledstrip):
+    while True:
+        print(f"buttons: {buttons}\t\tI/O: {ledstrip.on}\tval: {ledstrip.val}\tstate: {ledstrip.i}\n")
+        time.sleep(0.1)
 
 
 dimUpThread = threading.Thread(target=dim_up, args=(ledstrip, dimUpEvent))
@@ -91,6 +99,10 @@ stateDownThread = threading.Thread(target=state_down, args=(ledstrip, stateDownE
 stateDownThread.daemon = True
 stateDownThread.start()
 
+logger = threading.Thread(target=logger, args=(buttons, ledstrip))
+logger.daemon = True
+logger.start()
+
 ledstrip.all_off()
 while True:
     if buttons == [1, 0, 0, 0]:
@@ -103,4 +115,3 @@ while True:
         stateUpEvent.set()
     if buttons == [0, 0, 0, 1]:
         stateDownEvent.set()
-

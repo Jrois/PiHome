@@ -4,6 +4,7 @@
     <list default="true" id="337af637-60d2-4fcf-9dab-45bb2ab49423" name="Default Changelist" comment="typo corrected">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ledstrip_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/ledstrip_control.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rf_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/rf_lib.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
