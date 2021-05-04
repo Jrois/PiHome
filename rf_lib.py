@@ -27,6 +27,7 @@ def get_buttons_pressed(buttons, A, B, C, D):
             buttons[2] = 1
         if GPIO.input(D):
             buttons[3] = 1
-#         print(buttons)
+        print(buttons)
         next_call = next_call + 0.1
-        time.sleep(next_call - time.time())
+        if next_call - time.time() > 0:
+            time.sleep(next_call - time.time())
