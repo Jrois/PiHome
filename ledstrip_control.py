@@ -102,5 +102,5 @@ while True:
     if buttons == [0, 0, 1, 0]:
         stateUpEvent.set()
     if buttons == [0, 0, 0, 1]:
-        stateUpEvent.set()
+        stateDownEvent.set()
 
