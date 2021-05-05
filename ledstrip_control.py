@@ -31,7 +31,7 @@ def dim_up(ledstrip, event):
         ledstrip.dim_up()
         ledstrip.set_strip(ledstrip.state())
         print(ledstrip.val)
-        time.sleep(0.25)
+        time.sleep(0.2)
         event.clear()
 
 
@@ -41,7 +41,7 @@ def dim_down(ledstrip, event):
         ledstrip.dim_down()
         ledstrip.set_strip(ledstrip.state())
         print(ledstrip.val)
-        time.sleep(0.25)
+        time.sleep(0.2)
         event.clear()
 
 
@@ -53,6 +53,7 @@ def on_off(ledstrip, event):
             ledstrip.on = True
         else:
             ledstrip.all_off()
+            ledstrip.on = False
         time.sleep(0.5)
         event.clear()
 
@@ -91,7 +92,7 @@ def wake_light(ledstrip, event, wake_time, wake_period):
 
 def logger(buttons, ledstrip):
     while True:
-        print(f"buttons: {buttons}\t\tI/O: {ledstrip.on}\tval: {ledstrip.val}\tstate: {ledstrip.i}\n")
+        print(f"buttons:{buttons}\tI/O:{ledstrip.on}\tval:{ledstrip.val}\t\tstate:{ledstrip.i}")
         time.sleep(0.1)
 
 
@@ -127,15 +128,16 @@ logger.start()
 
 ledstrip.all_off()
 while True:
-    if buttons == [1, 0, 0, 0]:
-        dimUpEvent.set()
-    if buttons == [0, 1, 0, 0]:
-        dimDownEvent.set()
     if buttons == [1, 1, 0, 0]:
         IOEvent.set()
-    if buttons == [0, 0, 1, 0]:
-        stateUpEvent.set()
-    if buttons == [0, 0, 0, 1]:
-        stateDownEvent.set()
-    if buttons == [0, 0, 1, 1]:
-        wakeLightEvent.set()
+    if ledstrip.on:
+        if buttons == [1, 0, 0, 0]:
+            dimUpEvent.set()
+        if buttons == [0, 1, 0, 0]:
+            dimDownEvent.set()
+        if buttons == [0, 0, 1, 0]:
+            stateUpEvent.set()
+        if buttons == [0, 0, 0, 1]:
+            stateDownEvent.set()
+        if buttons == [0, 0, 1, 1]:
+            wakeLightEvent.set()
