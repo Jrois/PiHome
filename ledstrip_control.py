@@ -1,5 +1,6 @@
 from rf_lib import *
 from ledstrip_lib import *
+from wake_time_lib import *
 import time
 import threading
 
@@ -21,6 +22,7 @@ stateDownEvent = threading.Event()
 dimUpEvent = threading.Event()
 dimDownEvent = threading.Event()
 IOEvent = threading.Event()
+wakeLightEvent = threading.Event()
 
 
 def dim_up(ledstrip, event):
@@ -73,6 +75,20 @@ def state_down(ledstrip, event):
         event.clear()
 
 
+def wake_light(ledstrip, event, wake_time, wake_period):
+    while True:
+        event.wait()
+        wakeLightMode = True
+        # blink twice
+        while wakeLightMode:
+            val = wake_light_value(wake_time, wake_period)
+            if val:
+                ledstrip.set_strip([0, 0, 0, 0, 0, val])
+                time.sleep(1)
+            else:
+                wakeLightMode = False
+
+
 def logger(buttons, ledstrip):
     while True:
         print(f"buttons: {buttons}\t\tI/O: {ledstrip.on}\tval: {ledstrip.val}\tstate: {ledstrip.i}\n")
@@ -99,6 +115,12 @@ stateDownThread = threading.Thread(target=state_down, args=(ledstrip, stateDownE
 stateDownThread.daemon = True
 stateDownThread.start()
 
+wake_time = [12, 30]
+wake_period = 1
+wakeLightThread = threading.Thread(target=wake_light, args=(ledstrip, wakeLightEvent, wake_time, wake_period))
+wakeLightThread.daemon = True
+wakeLightThread.start()
+
 logger = threading.Thread(target=logger, args=(buttons, ledstrip))
 logger.daemon = True
 logger.start()
@@ -115,3 +137,5 @@ while True:
         stateUpEvent.set()
     if buttons == [0, 0, 0, 1]:
         stateDownEvent.set()
+    if buttons == [0, 0, 1, 1]:
+        wakeLightEvent.set()

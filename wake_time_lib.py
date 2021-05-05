@@ -29,8 +29,3 @@ def get_light_value(wt, dt):
     timeperiod = timedelta(minutes=dt)
     f = interp1d([time2integer((wake_time-timeperiod).time()), time2integer(wake_time)], [0, 0.95])
     return f(time2integer(current_time))
-
-dt = 30
-wt = [12, 3]
-
-print(wake_light_value(wt, dt))
