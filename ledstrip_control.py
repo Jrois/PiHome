@@ -79,16 +79,16 @@ def state_down(ledstrip, event):
 def wake_light(ledstrip, event, wake_time, wake_period):
     while True:
         event.wait()
-        wakeLightMode = True
-        # blink twice
-        while wakeLightMode:
+        ledstrip.wakeLightMode = True
+        ledstrip.blink(2)
+        while ledstrip.wakeLightMode:
             val = wake_light_value(wake_time, wake_period)
             if val:
                 ledstrip.set_strip([0, 0, 0, 0, 0, val])
                 time.sleep(1)
             else:
-                wakeLightMode = False
-
+                ledstrip.wakeLightMode = False
+        event.clear()
 
 def logger(buttons, ledstrip):
     while True:
@@ -126,6 +126,7 @@ logger = threading.Thread(target=logger, args=(buttons, ledstrip))
 logger.daemon = True
 logger.start()
 
+
 ledstrip.all_off()
 while True:
     if buttons == [1, 1, 0, 0]:
@@ -139,5 +140,7 @@ while True:
             stateUpEvent.set()
         if buttons == [0, 0, 0, 1]:
             stateDownEvent.set()
-        if buttons == [0, 0, 1, 1]:
+        if ledstrip.wakeLightMode and buttons == [0, 0, 1, 1]:
             wakeLightEvent.set()
+        if not ledstrip.wakeLightMode and buttons == [0, 0, 1, 1]:
+            ledstrip.wakeLightMode = False

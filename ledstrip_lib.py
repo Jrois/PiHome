@@ -1,6 +1,6 @@
 from gpiozero import PWMLED
 from gpiozero.pins.pigpio import PiGPIOFactory
-
+from time import *
 
 class LedStrip:
     def __init__(self, r, g, b, ww, cw):
@@ -13,6 +13,7 @@ class LedStrip:
         self.cool = PWMLED(cw, pin_factory=factory)
         self.val = 0.7
         self.on = False
+        self.wakeLightMode = False
 
     def state_up(self):
         if self.i < 5:
@@ -54,3 +55,16 @@ class LedStrip:
         if self.val > 0.1:
             self.val -= 0.05
 
+    def blink(self, n):
+        if self.on:
+            for i in range(n):
+                self.all_off()
+                sleep(0.5)
+                self.set_strip(self.state())
+                sleep(0.5)
+        else:
+            for i in range(n):
+                self.set_strip(self.state())
+                sleep(0.5)
+                self.all_off()
+                sleep(0.5)
