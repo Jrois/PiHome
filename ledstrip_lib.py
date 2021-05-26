@@ -55,16 +55,16 @@ class LedStrip:
         if self.val > 0.1:
             self.val -= 0.05
 
-    def blink(self, n):
+    def blink(self, n, t):
         if self.on:
             for i in range(n):
                 self.all_off()
-                sleep(0.5)
+                sleep(t)
                 self.set_strip(self.state())
-                sleep(0.5)
+                sleep(t)
         else:
             for i in range(n):
                 self.set_strip(self.state())
-                sleep(0.5)
+                sleep(t)
                 self.all_off()
-                sleep(0.5)
+                sleep(t)
