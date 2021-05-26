@@ -32,17 +32,17 @@ class LedStrip:
         states[self.i] = self.val
         return states
 
-    def set_strip(self, states):
+    def set_strip(self, states, fac=1):
         # [r, g, b, ww, cw, wwcww] = states
         if states[5] == 0:
-            self.red.value = states[0]
-            self.green.value = states[1]
-            self.blue.value = states[2]
-            self.warm.value = states[3]
-            self.cool.value = states[4]
+            self.red.value = states[0]/fac
+            self.green.value = states[1]/fac
+            self.blue.value = states[2]/fac
+            self.warm.value = states[3]/fac
+            self.cool.value = states[4]/fac
         else:
-            self.warm.value = states[5]
-            self.cool.value = states[5]
+            self.warm.value = states[5]/fac
+            self.cool.value = states[5]/fac
         
     def all_off(self):
         self.set_strip([0, 0, 0, 0, 0, 0])
@@ -58,7 +58,7 @@ class LedStrip:
     def blink(self, n, t):
         if self.on:
             for i in range(n):
-                self.all_off()
+                self.set_strip(self.state(), 3)
                 sleep(t)
                 self.set_strip(self.state())
                 sleep(t)
@@ -66,5 +66,6 @@ class LedStrip:
             for i in range(n):
                 self.set_strip(self.state())
                 sleep(t)
-                self.all_off()
+                self.set_strip(self.state(), 3)
                 sleep(t)
+            self.all_off()

@@ -79,19 +79,20 @@ def state_down(ledstrip, event):
 def wake_light(ledstrip, event, wake_time, wake_period):
     while True:
         event.wait()
-        ledstrip.wakeLightMode = True
-        ledstrip.blink(1, 0.1)
         while ledstrip.wakeLightMode:
             val = wake_light_value(wake_time, wake_period)
-            print(val)
-            if val:
-                ledstrip.set_strip([0, 0, 0, 0, 0, val])
-                print(f'val{val} set')
+            if val < 0:
+                pass
+            elif 0 < val < 1:
+                ledstrip.val = val
+                ledstrip.set_strip(ledstrip.state())
+                ledstrip.on = True
                 time.sleep(1)
             elif val > 1:
-                ledstrip.wakeLightMode = False
                 event.clear()
+                ledstrip.wakeLightMode = False
 
+                
 def logger(buttons, ledstrip):
     while True:
         print(f"buttons:{buttons}\tI/O:{ledstrip.on}\tval:{ledstrip.val}\tstate:{ledstrip.i}\twake mode:{ledstrip.wakeLightMode}")
@@ -118,15 +119,15 @@ stateDownThread = threading.Thread(target=state_down, args=(ledstrip, stateDownE
 stateDownThread.daemon = True
 stateDownThread.start()
 
-wake_time = [15, 52]
-wake_period = 2
+wake_time = [7, 30]
+wake_period = 30
 wakeLightThread = threading.Thread(target=wake_light, args=(ledstrip, wakeLightEvent, wake_time, wake_period))
 wakeLightThread.daemon = True
 wakeLightThread.start()
 
 logger = threading.Thread(target=logger, args=(buttons, ledstrip))
 logger.daemon = True
-logger.start()
+# logger.start()
 
 
 ledstrip.all_off()
@@ -144,7 +145,10 @@ while True:
             stateDownEvent.set()
         if not ledstrip.wakeLightMode and buttons == [0, 0, 1, 1]:
             wakeLightEvent.set()
+            ledstrip.wakeLightMode = True
+            ledstrip.blink(1, 0.1)
             time.sleep(0.5)
         if ledstrip.wakeLightMode and buttons == [0, 0, 1, 1]:
             ledstrip.wakeLightMode = False
             ledstrip.blink(2, 0.1)
+            time.sleep(0.5)
