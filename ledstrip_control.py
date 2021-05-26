@@ -92,7 +92,7 @@ def wake_light(ledstrip, event, wake_time, wake_period):
 
 def logger(buttons, ledstrip):
     while True:
-        print(f"buttons:{buttons}\tI/O:{ledstrip.on}\tval:{ledstrip.val}\t\tstate:{ledstrip.i}")
+        print(f"buttons:{buttons}\tI/O:{ledstrip.on}\tval:{ledstrip.val}\tstate:{ledstrip.i}\twake mode:{ledstrip.wakeLightMode}")
         time.sleep(0.1)
 
 
