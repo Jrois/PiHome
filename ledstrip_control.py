@@ -88,10 +88,9 @@ def wake_light(ledstrip, event, wake_time, wake_period):
                 ledstrip.set_strip([0, 0, 0, 0, 0, val])
                 print(f'val{val} set')
                 time.sleep(1)
-            else:
-                pass
-        ledstrip.wakeLightMode = False
-        event.clear()
+            elif val > 1:
+                ledstrip.wakeLightMode = False
+                event.clear()
 
 def logger(buttons, ledstrip):
     while True:

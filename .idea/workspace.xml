@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="337af637-60d2-4fcf-9dab-45bb2ab49423" name="Default Changelist" comment="typo corrected">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ledstrip_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/ledstrip_control.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/time.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/time.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wake_time_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/wake_time_lib.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,9 +39,6 @@
       <module name="PiHome" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -77,9 +77,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.time" />
+        <item itemvalue="Python.time" />
+        <item itemvalue="Python.time" />
         <item itemvalue="Python.timer" />
-        <item itemvalue="Python.time" />
-        <item itemvalue="Python.time" />
         <item itemvalue="Python.time" />
       </list>
     </recent_temporary>

@@ -14,11 +14,13 @@ def wake_light_value(wt, dt):
     current_time = datetime.now()
     if (wake_time - timeperiod).time() < current_time.time() < wake_time.time():
         return get_light_value(wt, dt)
+    elif current_time.time() > wake_time.time():
+        return 100
     else:
         return False
 
 def time2integer(time):
-    return 60*time.hour + time.minute
+    return 60*time.hour + time.minute + time.second/60
 
 def lin_interpol(x, X, Y):
     [x1, x2] = X
