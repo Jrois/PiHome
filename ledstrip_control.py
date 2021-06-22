@@ -30,7 +30,6 @@ def dim_up(ledstrip, event):
         event.wait()
         ledstrip.dim_up()
         ledstrip.set_strip(ledstrip.state())
-        print(ledstrip.val)
         time.sleep(0.2)
         event.clear()
 
@@ -40,7 +39,6 @@ def dim_down(ledstrip, event):
         event.wait()
         ledstrip.dim_down()
         ledstrip.set_strip(ledstrip.state())
-        print(ledstrip.val)
         time.sleep(0.2)
         event.clear()
 
