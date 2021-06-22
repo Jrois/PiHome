@@ -1,5 +1,8 @@
 from datetime import datetime, timedelta
 
+time_tol = timedelta(minutes=5)
+
+
 # time light
 def wake_light_value(wt, dt):
     """
@@ -12,24 +15,28 @@ def wake_light_value(wt, dt):
     wake_time = datetime(1, 1, 1, hour=h, minute=m)
     timeperiod = timedelta(minutes=dt)
     current_time = datetime.now()
-    if (wake_time - timeperiod).time() < current_time.time() < wake_time.time():
+    if (wake_time - timeperiod).time() < current_time.time() < wake_time.time(): # active
         return get_light_value(wt, dt)
-    elif current_time.time() > wake_time.time():
+    elif wake_time.time() < current_time.time() < (wake_time + time_tol).time(): # done
         return 2
-    else:
+    else:   # idle
         return -1
 
+
 def time2integer(time):
-    return 60*time.hour + time.minute + time.second/60 + time.microsecond/60000000
+    return 60 * time.hour + time.minute + time.second / 60 + time.microsecond / 60000000
+
 
 def lin_interpol(x, X, Y):
     [x1, x2] = X
     [y1, y2] = Y
-    return y1 + ((x - x1)/ (x2 - x1)) * (y2 - y1)
+    return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1)
+
 
 def get_light_value(wt, dt):
     current_time = datetime.now()
     [h, m] = wt
     wake_time = datetime(1, 1, 1, hour=h, minute=m)
     timeperiod = timedelta(minutes=dt)
-    return lin_interpol(time2integer(current_time), [time2integer((wake_time-timeperiod).time()), time2integer(wake_time)], [0, 0.95])
+    return lin_interpol(time2integer(current_time),
+                        [time2integer((wake_time - timeperiod).time()), time2integer(wake_time)], [0, 0.95])

@@ -81,14 +81,14 @@ def wake_light(ledstrip, event, wake_time, wake_period):
         event.wait()
         while ledstrip.wakeLightMode:
             val = wake_light_value(wake_time, wake_period)
-            if val < 0:
+            if val < 0: # idle
                 pass
-            elif 0 < val < 1:
+            elif 0 < val < 1:   # active
                 ledstrip.val = val
                 ledstrip.set_strip(ledstrip.state())
                 ledstrip.on = True
                 time.sleep(1)
-            elif val > 1:
+            elif val > 1:   # done
                 event.clear()
                 ledstrip.wakeLightMode = False
 
