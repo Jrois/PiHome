@@ -13,7 +13,7 @@ button_listener.daemon = True
 button_listener.start()
 
 # ledstrip init
-[r, g, b, ww, cw] = [2, 3, 4, 14, 15]  # pwm led output pins (BCM)
+[r, g, b, ww, cw] = [3, 4, 2, 14, 15]  # pwm led output pins (BCM)
 ledstrip = LedStrip(r, g, b, ww, cw)
 
 # event initialisations
@@ -93,7 +93,7 @@ def wake_light(ledstrip, event, wake_time, wake_period):
                 
 def logger(buttons, ledstrip):
     while True:
-        print(f"buttons:{buttons}\tI/O:{ledstrip.on}\tval:{ledstrip.val}\tstate:{ledstrip.i}\twake mode:{ledstrip.wakeLightMode}")
+        print(f"buttons:{buttons}\tI/O:{ledstrip.on}\tval:{ledstrip.val}\tstate:{ledstrip.state()}\twake mode:{ledstrip.wakeLightMode}")
         time.sleep(0.1)
 
 
@@ -125,7 +125,7 @@ wakeLightThread.start()
 
 logger = threading.Thread(target=logger, args=(buttons, ledstrip))
 logger.daemon = True
-# logger.start()
+logger.start()
 
 
 ledstrip.all_off()

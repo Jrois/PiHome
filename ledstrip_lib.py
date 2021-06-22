@@ -43,6 +43,7 @@ class LedStrip:
         else:
             self.warm.value = states[5]/fac
             self.cool.value = states[5]/fac
+            self.red.value = 0
         
     def all_off(self):
         self.set_strip([0, 0, 0, 0, 0, 0])
